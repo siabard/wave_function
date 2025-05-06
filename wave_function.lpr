@@ -7,14 +7,6 @@ uses
   wfc,
   wfc2;
 
-  procedure DebugArrTile(arr: ArrTile);
-  var
-    I: integer;
-  begin
-    for I := Low(arr) to High(arr) do
-      Write(Format('%d ', [arr[I]]));
-    WriteLn;
-  end;
 
 var
   Cells: array of CCell;
@@ -32,13 +24,19 @@ begin
 
   SetLength(Cells, Width * Height);
   { 입력될 Tile 정보들 }
-  SetLength(Tiles, 5);
-  Tiles[0] := CTile.Create('ㅍ', BlankEdge);
-  Tiles[1] := CTile.Create('ㅗ', UpEdge);
-  Tiles[2] := CTile.Create('ㅏ', RightEdge);
-  Tiles[3] := CTile.Create('ㅜ', DownEdge);
-  Tiles[4] := CTile.Create('ㅓ', LeftEdge);
-
+  SetLength(Tiles, 12);
+  Tiles[0] := CTile.Create('░', BlankEdge);
+  Tiles[1] := CTile.Create('┻', UpEdge);
+  Tiles[2] := CTile.Create('┣', RightEdge);
+  Tiles[3] := CTile.Create('┳', DownEdge);
+  Tiles[4] := CTile.Create('┫', LeftEdge);
+  Tiles[5] := CTile.Create('╋', [1,1,1,1]);
+  Tiles[6] := CTile.Create('┏', [0, 1, 1, 0]);
+  Tiles[7] := CTile.Create('┓', [0, 0, 1, 1]);
+  Tiles[8] := CTile.Create('┗', [1, 1, 0, 0]);
+  Tiles[9] := CTile.Create('┛', [1, 0, 0, 1]);
+  Tiles[10] := CTile.Create('━', [0, 1, 0, 1]);
+  Tiles[11] := CTile.Create('┃', [1, 0, 1, 0]);
 
   { Rules }
   for I := Low(Tiles) to High(Tiles) do

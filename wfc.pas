@@ -7,31 +7,7 @@ interface
 uses
   Classes, SysUtils, Generics.Collections, wfc2;
 
-type
-  { blank : 0, upward: 1, right: 2, downward: 3, left: 4 }
-  ETile = (blank, upward, right, downward, left);
 
-  PTileList = ^ETileList;
-  ETileList = specialize TList<ETile>;
-
-  ArrTile = array of ETile;
-
-
-  PGrid = ^RGrid;
-
-  RGrid = record
-    Collapsed: boolean;
-    Options: ETileList;
-  end;
-
-
-  ArrGrid = array of RGrid;
-
-  ArrArrTile = array of ArrTile;
-
-  RulesMap = specialize THashMap<ETile, ArrArrTile>;
-
-function TileChar(ATile: ETile): string;
 function MinEntropies(ACells: ArrCell): integer;
 function MinEntropyIndexes(ACells: ArrCell; AMin: integer): TIntegers;
 
@@ -57,16 +33,6 @@ const
 implementation
 
 
-function TileChar(ATile: ETile): string;
-begin
-  case ATile of
-    blank: Result := 'ㅍ';
-    upward: Result := 'ㅗ';
-    downward: Result := 'ㅜ';
-    left: Result := 'ㅓ';
-    right: Result := 'ㅏ';
-  end;
-end;
 
 function MinEntropies(ACells: ArrCell): integer;
 var
@@ -117,7 +83,7 @@ var
 begin
   for I := Low(ACells) to High(ACells) do
   begin
-    ACells[I] := CCell.Create(5); { 총 5종류 }
+    ACells[I] := CCell.Create(12); { 총 12종류 }
   end;
 end;
 
@@ -140,7 +106,7 @@ begin
       if ACells[Index].Collapsed = True then
         Write(Format('%s', [ATiles[ACells[Index].Options[0]].img]))
       else
-        Write(Format('%2d', [Length(ACells[Index].Options)]));
+        Write('█');
 
       Inc(Index);
     end;
@@ -199,14 +165,13 @@ end;
 function CollapseLoop(Cells: ArrCell; Tiles: ArrCTile; Width: integer;
   Height: integer): ArrCell;
 var
-  I, J, K: integer;
+  I, J: integer;
   Index: integer;
   minimum: integer;
   FilteredIndices: TIntegers;
   PickIndex: integer;
   AIndex: integer;
   NextCells: ArrCell;
-  AArrArrTile: ArrArrTile;
   AArrTile: TIntegers;
   ACell: CCell;
   AOptions: TIntegers;
@@ -250,7 +215,7 @@ begin
       begin
 
         NextCells[Index].Options := [];
-        AOptions := [0, 1, 2, 3, 4];
+        AOptions := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         { 각 Rules 은 순서대로  위(0), 왼쪽(1), 아래(2), 오른쪽(3) 이다 }
         { Look Above }
 
