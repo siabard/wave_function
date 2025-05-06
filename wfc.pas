@@ -11,7 +11,7 @@ uses
 function MinEntropies(ACells: ArrCell): integer;
 function MinEntropyIndexes(ACells: ArrCell; AMin: integer): TIntegers;
 
-procedure SetupTiles(var ACells: array of CCell);
+procedure SetupTiles(var ACells: array of CCell; num: Integer);
 procedure GenerateRules(var ATiles: array of CTile);
 function PickRandomIndex(IList: TIntegers): integer;
 procedure DisplayTiles(var ACells: ArrCell; ATiles: ArrCTile;
@@ -77,13 +77,13 @@ begin
   Result := IList[Random(Length(IList))];
 end;
 
-procedure SetupTiles(var ACells: array of CCell);
+procedure SetupTiles(var ACells: array of CCell; num : Integer);
 var
   I: integer;
 begin
   for I := Low(ACells) to High(ACells) do
   begin
-    ACells[I] := CCell.Create(12); { 총 12종류 }
+    ACells[I] := CCell.Create(num); { 총 12종류 }
   end;
 end;
 
@@ -165,7 +165,7 @@ end;
 function CollapseLoop(Cells: ArrCell; Tiles: ArrCTile; Width: integer;
   Height: integer): ArrCell;
 var
-  I, J: integer;
+  I, J, K: integer;
   Index: integer;
   minimum: integer;
   FilteredIndices: TIntegers;
@@ -202,7 +202,7 @@ begin
 
   { Collapse 하기 }
   SetLength(NextCells, Width * Height);
-  SetupTiles(NextCells);
+  SetupTiles(NextCells, Length(Tiles));
   for I := 0 to Height - 1 do
     for J := 0 to Width - 1 do
     begin
@@ -215,7 +215,11 @@ begin
       begin
 
         NextCells[Index].Options := [];
-        AOptions := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+        AOptions := [];
+        For K := 0 To Length(Tiles) do
+            Insert(K, AOptions, 0);
+        // AOptions := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         { 각 Rules 은 순서대로  위(0), 왼쪽(1), 아래(2), 오른쪽(3) 이다 }
         { Look Above }
 

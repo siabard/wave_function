@@ -80,7 +80,7 @@ begin
   *}
 
   { 초기화하기 }
-  SetupTiles(Cells);
+  SetupTiles(Cells, Length(Tiles));
 
   repeat
     collapsedCount := 0;
